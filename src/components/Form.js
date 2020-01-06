@@ -1,5 +1,6 @@
 import React from 'react';
 import data from '../assets/score-records'
+import compData from '../assets/companies'
 import styled from 'styled-components';
 
 
@@ -13,6 +14,7 @@ class Form extends React.Component {
      };
 
     this.data = data()
+    this.compData = compData()
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -32,9 +34,14 @@ class Form extends React.Component {
     this.candidate_code_percentile()
   }
 
-  filter_by_title(title) {
+  similar_companies(company_id1, company_id2) {
+    debugger
+    return (this.compData[company_id1] - this.compData[company_id2]) < 0.15
+  }
+
+  filter_by_title_and_company(title, company_id) {
     let filtered = this.data.filter((entries) => {
-      return entries.title === title
+      return entries.title === title && this.similar_companies(entries.company_id, company_id)
     })
     return filtered
   }
@@ -71,14 +78,21 @@ class Form extends React.Component {
 
   candidate_code_percentile() {
     let candidate = this.find_candidate_by_id();
+    let company_id = candidate.company_id
     let title = candidate.title;
-    let filtered_set = this.filter_by_title(title);
-    console.log(candidate);
-    console.log(filtered_set.slice(0,3));
+    let filtered_set = this.filter_by_title_and_company(title, company_id);
+
     let sorted_filtered_set_coding = this.sort_data_coding(filtered_set);
+    let sorted_filtered_set_communication = this.sort_data_communication(filtered_set);
+    
+    let rank_code = this.get_rank(sorted_filtered_set_coding, this.state.candidateId)
+    let rank_comm = this.get_rank(sorted_filtered_set_communication, this.state.candidateId)
+
+    console.log(candidate);
+    console.log(filtered_set.slice(0, 3));
     console.log(sorted_filtered_set_coding);
-    let rank = this.get_rank(sorted_filtered_set_coding, this.state.candidateId)
-    console.log(rank)
+    console.log(rank_code)
+    console.log(rank_comm)
   }
 
   candidate_communication_percentile(candidateId) {
