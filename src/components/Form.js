@@ -17,6 +17,7 @@ class Form extends React.Component {
     this.compData = compData()
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.candidate_code_percentile = this.candidate_code_percentile.bind(this);
   }
 
   handleChange(event) {
@@ -24,14 +25,11 @@ class Form extends React.Component {
   }
 
   handleSubmit(event) {
-    // alert('A name was submitted: ' + this.state.candidateId);
     event.preventDefault();
-    // this.setState({candidateId: 'submitted!'});
-    // this.candidate_code_percentile(this.state.candidateId);
     this.candidate_communication_percentile(this.state.candidateId);
-    this.setState({codingPerc: 'submitted!'});
-    this.setState({commPerc: 'submitted!'});
-    this.candidate_code_percentile()
+    let results = this.candidate_code_percentile()
+    this.setState({ codingPerc: results[0]});
+    this.setState({ commPerc: results[1]});
   }
 
   similar_companies(company_id1, company_id2) {
@@ -92,10 +90,11 @@ class Form extends React.Component {
     console.log(sorted_filtered_set_coding);
     console.log(rank_code)
     console.log(rank_comm)
-    let coding_perc = ((rank_code - 1) / sorted_filtered_set_coding.length) * 100;
-    let comm_perc = ((rank_comm - 1) / sorted_filtered_set_communication.length) * 100;
-    console.log(`candidates coding percentile is ${coding_perc}`)
-    console.log(`candidates communication percentile is ${comm_perc}`)
+    let coding_perc = Math.round(((rank_code - 1) / sorted_filtered_set_coding.length) * 100);
+    let comm_perc = Math.round(((rank_comm - 1) / sorted_filtered_set_communication.length) * 100);
+    console.log(`candidates coding percentile is ${coding_perc}%`)
+    console.log(`candidates communication percentile is ${comm_perc}%`)
+    return [coding_perc, comm_perc]
   }
 
   candidate_communication_percentile(candidateId) {
@@ -114,8 +113,8 @@ class Form extends React.Component {
         </br>
         <input type="submit" value="Submit" />
         <h1>{this.state.candidateId}</h1>
-        <h1>{this.state.candidateId}'s coding percentile is: {this.state.codingPerc}</h1>
-        {/* <h1>{this.state.candidateId}'s communication percentile is: {this.state.commPerc}</h1> */}
+        <h1>{this.state.candidateId}'s coding percentile is: {this.state.codingPerc}%</h1>
+        <h1>{this.state.candidateId}'s communication percentile is: {this.state.commPerc}%</h1>
       </form>
     );
   }
