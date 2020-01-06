@@ -35,7 +35,6 @@ class Form extends React.Component {
   }
 
   similar_companies(company_id1, company_id2) {
-    debugger
     return (this.compData[company_id1] - this.compData[company_id2]) < 0.15
   }
 
@@ -93,6 +92,10 @@ class Form extends React.Component {
     console.log(sorted_filtered_set_coding);
     console.log(rank_code)
     console.log(rank_comm)
+    let coding_perc = ((rank_code - 1) / sorted_filtered_set_coding.length) * 100;
+    let comm_perc = ((rank_comm - 1) / sorted_filtered_set_communication.length) * 100;
+    console.log(`candidates coding percentile is ${coding_perc}`)
+    console.log(`candidates communication percentile is ${comm_perc}`)
   }
 
   candidate_communication_percentile(candidateId) {
