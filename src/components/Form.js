@@ -36,19 +36,31 @@ class Form extends React.Component {
     let filtered = this.data.filter((entries) => {
       return entries.title === title
     })
-    // console.log(filtered.slice(0, 5))
     return filtered
   }
 
-  rank_col_by_name(data, filtered_set, col_name, rank_col) {
-    
-    let sorted = filtered_set.slice().sort(function (a, b) { return b - a })
-    let ranks = filtered_set.slice().map(function (v) { return sorted.indexOf(v) + 1 });
-    return
+  sort_data_coding(dataSet) {
+    return dataSet.slice().sort(function(a,b) {
+      return Number(a.coding_score) > Number(b.coding_score) ? 1 : Number(a.coding_score) < Number(b.coding_score) ? -1 : 0
+    })
+  }
+
+  sort_data_communication(dataSet) {
+    return dataSet.slice().sort(function(a,b) {
+      return Number(a.communication_score) > Number(b.communication_score) ? 1 : Number(a.communication_score) < Number(b.communication_score) ? -1 : 0
+    })
+  }
+
+  get_rank(dataSet, candidateId) {
+    for (let i = 0; i < dataSet.length; i++) {
+      if (dataSet[i].candidate_id === candidateId) {
+        return i + 1
+      }
+    }
+    return 'no candidate found'
   }
 
   find_candidate_by_id() {
-    // debugger
     for (let i = 0; i < this.data.length; i++) {
       if (this.data[i].candidate_id === this.state.candidateId) {
         return this.data[i]
@@ -59,8 +71,14 @@ class Form extends React.Component {
 
   candidate_code_percentile() {
     let candidate = this.find_candidate_by_id();
-    let filtered_set = this.filter_by_title('Engineer')
+    let title = candidate.title;
+    let filtered_set = this.filter_by_title(title);
     console.log(candidate);
+    console.log(filtered_set.slice(0,3));
+    let sorted_filtered_set_coding = this.sort_data_coding(filtered_set);
+    console.log(sorted_filtered_set_coding);
+    let rank = this.get_rank(sorted_filtered_set_coding, this.state.candidateId)
+    console.log(rank)
   }
 
   candidate_communication_percentile(candidateId) {
