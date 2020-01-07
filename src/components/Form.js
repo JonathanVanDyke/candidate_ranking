@@ -1,7 +1,7 @@
 import React from 'react';
 import data from '../assets/score-records'
 import compData from '../assets/companies'
-import { Page, Dash, UserInput, Input } from '../styledComponents/styles'
+import { Page, Dash, UserInput, Input, Label } from '../styledComponents/styles'
 
 
 class Form extends React.Component {
@@ -12,7 +12,6 @@ class Form extends React.Component {
       codingPerc: '',
       commPerc: '',
      };
-
     this.data = data()
     this.compData = compData()
     this.handleChange = this.handleChange.bind(this);
@@ -84,10 +83,10 @@ class Form extends React.Component {
     
     let rank_code = this.get_rank(sorted_filtered_set_coding, this.state.candidateId)
     let rank_comm = this.get_rank(sorted_filtered_set_communication, this.state.candidateId)
-    let coding_perc = Math.round(((rank_code - 1) / sorted_filtered_set_coding.length) * 100);
-    let comm_perc = Math.round(((rank_comm - 1) / sorted_filtered_set_communication.length) * 100);
+    let coding_percentile = Math.round(((rank_code - 1) / sorted_filtered_set_coding.length) * 100);
+    let comm_percentile = Math.round(((rank_comm - 1) / sorted_filtered_set_communication.length) * 100);
 
-    return [coding_perc, comm_perc]
+    return [coding_percentile, comm_percentile]
   }
 
   candidate_communication_percentile(candidateId) {
@@ -100,7 +99,7 @@ class Form extends React.Component {
         <Dash>
           <UserInput>
             <form onSubmit={this.handleSubmit}>
-              <label>
+              <Label>
                 Candidate Id:
                 <br/>
                 <Input 
@@ -109,8 +108,7 @@ class Form extends React.Component {
                   value={this.state.candidateId} 
                   onChange={this.handleChange} 
                 />
-              </label>
-              {/* <input type="submit" value="Submit" /> */}
+              </Label>
               <p>{this.state.candidateId ? this.state.candidateId + "'s" : ''} coding percentile is: {this.state.codingPerc}%</p>
               <p>{this.state.candidateId ? this.state.candidateId + "'s" : ''} communication percentile is: {this.state.commPerc}%</p>
             </form>

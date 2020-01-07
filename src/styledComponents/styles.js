@@ -14,6 +14,11 @@ export const Dash = styled.div`
   width: 100%;
 `
 
+export const Label = styled.label`
+  padding-bottom: 5px;
+  font-size: 30px;
+`
+
 export const UserInput = styled.div`
   width: 50%;
   padding: 30px;
@@ -49,4 +54,5 @@ export const fadeOut = keyframes`
 
 export const Input = styled.input`
   outline: none;
+  font-size: 30px;
 `
