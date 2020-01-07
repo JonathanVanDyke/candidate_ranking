@@ -86,15 +86,7 @@ class Form extends React.Component {
     let rank_comm = this.get_rank(sorted_filtered_set_communication, this.state.candidateId)
     let coding_perc = Math.round(((rank_code - 1) / sorted_filtered_set_coding.length) * 100);
     let comm_perc = Math.round(((rank_comm - 1) / sorted_filtered_set_communication.length) * 100);
-    //** Testing
-    console.log(candidate);
-    console.log(filtered_set.slice(0, 3));
-    console.log(sorted_filtered_set_coding);
-    console.log(rank_code)
-    console.log(rank_comm)
-    console.log(`candidates coding percentile is ${coding_perc}%`)
-    console.log(`candidates communication percentile is ${comm_perc}%`)
-    //** Testing
+
     return [coding_perc, comm_perc]
   }
 
