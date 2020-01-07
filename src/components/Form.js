@@ -1,7 +1,7 @@
 import React from 'react';
 import data from '../assets/score-records'
 import compData from '../assets/companies'
-import styled from 'styled-components';
+import { Page, Dash, UserInput, Input } from '../styledComponents/styles'
 
 
 class Form extends React.Component {
@@ -84,16 +84,17 @@ class Form extends React.Component {
     
     let rank_code = this.get_rank(sorted_filtered_set_coding, this.state.candidateId)
     let rank_comm = this.get_rank(sorted_filtered_set_communication, this.state.candidateId)
-
+    let coding_perc = Math.round(((rank_code - 1) / sorted_filtered_set_coding.length) * 100);
+    let comm_perc = Math.round(((rank_comm - 1) / sorted_filtered_set_communication.length) * 100);
+    //** Testing
     console.log(candidate);
     console.log(filtered_set.slice(0, 3));
     console.log(sorted_filtered_set_coding);
     console.log(rank_code)
     console.log(rank_comm)
-    let coding_perc = Math.round(((rank_code - 1) / sorted_filtered_set_coding.length) * 100);
-    let comm_perc = Math.round(((rank_comm - 1) / sorted_filtered_set_communication.length) * 100);
     console.log(`candidates coding percentile is ${coding_perc}%`)
     console.log(`candidates communication percentile is ${comm_perc}%`)
+    //** Testing
     return [coding_perc, comm_perc]
   }
 
@@ -103,19 +104,27 @@ class Form extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Candidate Id:
-          <br></br>
-          <input type="text" value={this.state.candidateId} onChange={this.handleChange} />
-        </label>
-        <br>
-        </br>
-        <input type="submit" value="Submit" />
-        <h1>{this.state.candidateId}</h1>
-        <h1>{this.state.candidateId}'s coding percentile is: {this.state.codingPerc}%</h1>
-        <h1>{this.state.candidateId}'s communication percentile is: {this.state.commPerc}%</h1>
-      </form>
+      <Page>
+        <Dash>
+          <UserInput>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                Candidate Id:
+                <br/>
+                <Input 
+                  autoFocus 
+                  type="number" 
+                  value={this.state.candidateId} 
+                  onChange={this.handleChange} 
+                />
+              </label>
+              {/* <input type="submit" value="Submit" /> */}
+              <p>{this.state.candidateId ? this.state.candidateId + "'s" : ''} coding percentile is: {this.state.codingPerc}%</p>
+              <p>{this.state.candidateId ? this.state.candidateId + "'s" : ''} communication percentile is: {this.state.commPerc}%</p>
+            </form>
+          </UserInput>
+        </Dash>
+      </Page>
     );
   }
 }
